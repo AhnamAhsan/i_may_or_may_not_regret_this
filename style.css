@@ -1,0 +1,413 @@
+
+/* =========================================
+   1. GENERAL RESET AND PAGE SETTINGS
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background-color: #101722;
+    color: #F1EBDD;
+    overflow-x: hidden;
+}
+
+
+/* =========================================
+   2. BACKGROUND CONTAINER
+========================================= */
+
+#backgroundContainer {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+    z-index: 0;
+    overflow: hidden;
+}
+
+/* Individual background scenes */
+.background-scene {
+    position: absolute;
+    inset: 0;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+.background-scene.active {
+    opacity: 1;
+}
+/* Active background */
+
+.background-scene.morning {
+    background-image: url("assets/morning.jpg");
+}
+
+.background-scene.sunset {
+    background-image: url("assets/sunset.png");
+}
+
+.background-scene.moonlight {
+    background-image: url("assets/moonlight.jpg");
+}
+
+
+/* =========================================
+   3. BACKGROUND OVERLAY
+========================================= */
+
+.background-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+
+    background: rgba(8, 12, 22, 0.60);
+}
+
+/* Slightly darker treatment for the sunset */
+/**#backgroundContainer:has(.background-scene.sunset.active)
+.background-overlay {
+    background: rgba(8, 12, 22, 0.48);
+}
+
+#backgroundContainer:has(.background-scene.background-scene.morning.active)
+.background-overlay {
+    background: rgba(8, 12, 22, 0.67);
+}*/
+
+/* =========================================
+   4. READING PROGRESS BAR
+========================================= */
+
+#progressContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background-color: rgba(255, 255, 255, 0.15);
+
+    z-index: 100;
+}
+
+#progressBar {
+    width: 0%;
+    height: 100%;
+
+    background-color: #D8B77A;
+
+    transition: width 0.15s linear;
+}
+
+
+/* =========================================
+   5. MAIN STORY CONTAINER
+========================================= */
+
+#storyContainer {
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
+}
+
+
+/* =========================================
+   6. STORY SECTIONS
+========================================= */
+
+.story-section {
+    position: relative;
+    width: 100%;
+}
+
+/* Each chapter gets at least one screen
+   of vertical space. Longer chapters can
+   naturally extend beyond that. */
+
+.chapter {
+    min-height: 100vh;
+    min-height: 100svh;
+
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 120px 10%;
+
+    text-align: center;
+}
+
+
+/* =========================================
+   7. CHAPTER CONTENT
+========================================= */
+
+.chapter-number {
+    display: block;
+
+    font-family: 'Courier New', monospace;
+    font-size: 1.2rem;
+
+    letter-spacing: 4px;
+    text-transform: uppercase;
+
+    color: #E0C99D;
+
+    margin-bottom: 25px;
+}
+
+.chapter h1 {
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: normal;
+
+    line-height: 1.2;
+
+    max-width: 900px;
+
+    margin-bottom: 35px;
+
+    color: #F5EFE3;
+}
+
+
+.chapter-content {
+    max-width: 680px;
+    width: 100%;
+    text-align: left;
+
+    font-family: Georgia, serif;
+    font-size: clamp(1rem, 1.15vw, 1.12rem);
+    line-height: 1.9;
+    letter-spacing: 0.01em;
+
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.chapter-content p {
+    max-width: 65ch;
+    margin: 0 0 1.6rem 0;
+    text-wrap: pretty;
+}
+
+.chapter-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Important standalone thoughts */
+.chapter-content .story-line {
+    text-align: center;
+    color: #e6c77a;
+    font-size: 1.12em;
+    font-style: italic;
+
+    margin: 2.5rem auto;
+}
+
+/* Featured literary quote */
+.chapter-content .featured-quote {
+    text-align: center;
+    color: #e6c77a;
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+    font-style: italic;
+
+    margin: 2.8rem auto;
+}
+
+/* Final closing line */
+.chapter-content .closing-line {
+    text-align: center;
+    color: #e6c77a;
+    font-size: 1.2em;
+
+    margin: 2.5rem auto 0;
+}
+
+
+
+/* =========================================
+   8. CHAPTER NAVIGATION
+========================================= */
+
+#chapterNavigation {
+    position: fixed;
+
+    bottom: 30px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 28px;
+
+    padding: 10px 20px;
+
+    background-color: rgba(15, 23, 37, 0.65);
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 40px;
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    z-index: 100;
+}
+
+#chapterNavigation button {
+    background: none;
+    border: none;
+
+    color: #F1EBDD;
+
+    font-size: 1.5rem;
+
+    cursor: pointer;
+
+    padding: 4px 8px;
+
+    transition: color 0.25s ease,
+                transform 0.25s ease;
+}
+
+#chapterNavigation button:hover {
+    color: #D8B77A;
+    transform: scale(1.15);
+}
+
+#chapterNavigation button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: none;
+}
+
+#chapterIndicator {
+    font-family: 'Courier New', monospace;
+
+    font-size: 0.8rem;
+
+    letter-spacing: 2px;
+
+    color: #E0C99D;
+}
+
+
+/* =========================================
+   9. FOOTER
+========================================= */
+
+#footer_text {
+    position: relative;
+    z-index: 2;
+
+    text-align: center;
+
+    padding: 60px 20px 110px;
+
+    font-family: 'Courier New', monospace;
+
+    font-size: 0.75rem;
+    line-height: 2;
+
+    letter-spacing: 1px;
+
+    color: rgba(255, 255, 255, 0.65);
+}
+
+
+/* =========================================
+   10. RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 768px) {
+
+    
+
+    
+
+    .chapter {
+        padding: 100px 8%;
+    }
+
+    .chapter h1 {
+        font-size: clamp(1.8rem, 8vw, 3rem);
+    }
+
+    .chapter-content {
+        font-size: 1rem;
+        line-height: 1.85;
+        max-width: 100%;
+    }
+
+    .chapter-content p {
+        margin-bottom: 1.35rem;
+    }
+
+    .chapter-content .story-line {
+        margin: 2rem auto;
+    }
+
+    .chapter-content .featured-quote {
+        margin: 2.2rem auto;
+    }
+
+    .chapter-number {
+        font-size: 0.7rem;
+        letter-spacing: 3px;
+    }
+
+    #chapterNavigation {
+        bottom: 18px;
+        gap: 20px;
+    }
+
+    #footer_text {
+        font-size: 0.65rem;
+    }
+
+}
+
+
+/* =========================================
+   11. ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    .background-scene {
+        transition: none;
+    }
+
+    #chapterNavigation button {
+        transition: none;
+    }
+
+}
